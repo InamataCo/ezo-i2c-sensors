@@ -42,6 +42,7 @@ class Ezo_board{
 	Ezo_board(uint8_t address, const char* name); //Takes I2C address of the device
 												//as well a name of your choice
 	Ezo_board(uint8_t address, TwoWire* wire); //Takes I2C address and TwoWire interface
+	Ezo_board(uint8_t address, const char* name, TwoWire* wire); //Takes all 3 parameters
 	
 	void send_cmd(const char* command);	
 	//send any command in a string, see the devices datasheet for available i2c commands
@@ -78,10 +79,13 @@ class Ezo_board{
 	//returns the last reading the device received as a float
 	
 	const char* get_name();		
-	//returns a pointer to the name string
+	//returns a pointer to the name string. This gets the name given to object by the constructor
+	//not the device name returned by the "name,?" command. 
+	//To get the device name use [device].send_cmd("name,?") and read the response with receive_cmd
 	
 	void set_name(const char* name);
-	//set a pointer to the name string
+	//set a pointer to the name string. This sets the name of the object, not the device itself. 
+	//if you want to rename the device use [device].send_cmd("name,THE_DEVICE_NAME")
 	
 	enum errors get_error();	
 	//returns the error status of the last received command, 

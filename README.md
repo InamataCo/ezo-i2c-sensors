@@ -18,6 +18,8 @@ Ezo_board(uint8_t address);	 //Takes I2C address of the device
 Ezo_board(uint8_t address, const char* name); 
 //Takes I2C address of the device
 //as well a name of your choice
+Ezo_board(uint8_t address, TwoWire* wire); //Takes I2C address and TwoWire interface
+Ezo_board(uint8_t address, const char* name, TwoWire* wire); //Takes all 3 parameters
 
 void send_cmd(const char* command);	
 //send any command in a string, see the devices datasheet for available i2c commands
@@ -54,7 +56,9 @@ float get_last_received_reading();
 //returns the last reading the device received as a float
 
 const char* get_name();		
-//returns a pointer to the name string
+//returns a pointer to the name string. This gets the name given to the object by the constructor
+//not the device name returned by the "name,?" command. 
+//To get the device name use [device].send_cmd("name,?") and read the response with receive_cmd
 
 uint8_t get_address();
 //returns the address of the device
